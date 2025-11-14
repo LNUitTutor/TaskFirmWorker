@@ -73,7 +73,7 @@ void Firm::loadFromFile(const char* path)
 	while (!fin.eof())
 	{
 		string line; getline(fin, line);
-		std::cout << '*' << line << '\n';
+		//std::cout << '*' << line << '\n';
 		Worker* worker = Worker::Parse(line);
 		if (worker == nullptr)
 		{
@@ -87,7 +87,7 @@ void Firm::loadFromFile(const char* path)
 			mem[used++] = worker;
 		}
 	}
-	ferr.close();
+	ferr.close(); fin.close();
 	if (error_happend) throw std::runtime_error("Some lines where bad formatted");
 }
 
@@ -153,21 +153,27 @@ void Firm::separate(Subordinate*& subs, int& k_subs, Manager*& mans, int& k_mans
 Firm& Firm::addWorker(const Worker& worker)
 {
 	check_mem();
-	mem[used++] = worker.clone();
+	Worker* new_worker = worker.clone();
+	new_worker->addPlace(this->name);
+	mem[used++] = new_worker;
 	return *this;
 }
 
 Firm& Firm::addWorker(string n, int y, int w, int s, string* t, int k)
 {
 	check_mem();
-	mem[used++] = new Subordinate(n, y, w, s, t, k);
+	Subordinate* sub = new Subordinate(n, y, w, s, t, k);
+	sub->addPlace(this->name);
+	mem[used++] = sub;
 	return *this;
 }
 
 Firm& Firm::addWorker(string n, int y, int w, int s, string* t, int k, int sub)
 {
 	check_mem();
-	mem[used++] = new Manager(n, y, w, s, t, k, sub);
+	Manager* man = new Manager(n, y, w, s, t, k, sub);
+	man->addPlace(this->name);
+	mem[used++] = man;
 	return *this;
 }
 
@@ -186,6 +192,7 @@ bool Firm::removeIf(bool(*cond)(const Worker* A))
 	int place = 0;
 	while (place < used && !cond(mem[place])) ++place;
 	if (place >= used) return false;
+	delete mem[place];
 	for (int j = place + 1; j < used; ++j)
 		mem[j - 1] = mem[j];
 	--used;

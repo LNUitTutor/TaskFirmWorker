@@ -283,7 +283,7 @@ Subordinate& Subordinate::operator=(const Worker& worker)
 
 void Subordinate::printWithTypenameOn(ostream& os) const
 {
-    os << "Subordinate :: " << this->name << ' ' << this->years << " years old\n";
+    os << "Subordinate :: " << this->name << ' ' << this->years << " years of experience\n";
 }
 
 Subordinate* Subordinate::clone() const
@@ -322,7 +322,7 @@ double Manager::salary() const
 
 void Manager::printWithTypenameOn(ostream& os) const
 {
-    os << "Manager :: " << this->name << ' ' << this->years << " years old\n";
+    os << "Manager :: " << this->name << ' ' << this->years << " years of experience\n";
 }
 
 Manager* Manager::clone() const

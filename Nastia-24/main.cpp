@@ -22,7 +22,8 @@ int main()
     }
     catch (std::runtime_error& e)
     {
-        cout << "\n --- Problems with parsing of 'workers.txt' occured. See 'errors.txt'\n";
+        cout << "\n The RUNTIME_ERROR: " << e.what();
+        cout << "\n --- Problems with parsing of 'workers.txt' occured. See 'errors.txt'\n\n";
     }
     F.printOn(cout); cin.get();
     F.shortPrintOn(cout);
