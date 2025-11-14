@@ -1,0 +1,8 @@
+s Surname Name Father 10 30 30 1 LNU
+s Father Name Surname 40 36 36 1 LNU
+m Great Mana Ger 25 30 35 1 2 Abto NiX
+b Back Street Boys 21 100
+s Surna Nameme Father 15 30 30 3 LNU NULP LDIF
+m Huge Mana Ger 25 30 35 2 1 Abto
+s Sur Name Fathername 20 32 32 1 LNU
+m Large Mana Ger 25 30 35 3 1 NiX

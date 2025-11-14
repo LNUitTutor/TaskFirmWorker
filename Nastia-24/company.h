@@ -1,0 +1,103 @@
+#pragma once
+#include "worker.h"
+#include <exception>
+
+/* Клас “Фірма” (поле: назва фірми у вигляді рядка).
+   -------------------------------------------------
+Написати програму, що дає змогу моделювати роботу бухгалтерії на фірмі. Створити такі сервіси:
+ - наповнення фірми конкретними працівниками;
+ - нарахування заробітної плати для всіх працівників;
+ - знайти працівника, який отримує найбільшу заробітну плату;
+ - визначити k (k менше за розмір масиву) працівників, що отримують найнижчу зарплату;
+ - визначити k (k менше за розмір масиву) найстраших працівників;
+ - обчислення сумарної заробітної плати для всіх лідерів і усіх підлеглих;
+ - визначення сумарної заробітної плати лише для всіх лідерів;
+ - долучення та вилучення працівників до списку;
+ - знайти працівника, який змінив якнайбільшу кількість місць роботи;
+ - для всіх працівників, які змінили більше k робіт, змінити поле прізвище, ім’я, по 
+   батькові, додати на початок слово “Often”, можна через підкреслення _.
+*/
+
+class Firm
+{
+public:
+	// Обов’язково реалізувати хоча б одну генерацію і перехоплення користувацького винятку.
+	class FileNotFound: public std::runtime_error
+	{
+	public:
+		string path;
+		FileNotFound(const char* what, const string& fname) :runtime_error(what), path(fname) { }
+	};
+	class BadIndex : public std::out_of_range
+	{
+	public:
+		int index;
+		BadIndex(const char* what, int i) :out_of_range(what), index(i) { }
+	};
+private:
+	string name;
+	// Описати клас-колекцію, який містить колекцію сутностей, збережених у вигляді 
+	// динамічного масиву вказівників на батьківський клас.
+	Worker** mem;
+	int len, used;
+
+	void internal_clear() {
+		for (int i = 0; i < used; ++i)
+			delete mem[i]; }
+	void internal_copy(Worker* workers[], int n) {
+		for (int i = 0; i < n; ++i) mem[i] = workers[i]->clone(); }
+	void check_mem();
+	void check_index(int i) const {
+		if (i < 0 || i >= used) throw BadIndex("Index out of range of Firm", i); }
+public:
+	Firm() :name("Unknown"), used(0), len(5) { mem = new Worker*[len]; }
+	explicit Firm(const char* line) :name(line), used(0), len(5) { mem = new Worker*[len]; }
+	Firm(const char* line, int n) :name(line), used(0), len(n) { mem = new Worker*[len]; }
+	Firm(const char* line, Worker* workers[], int n);
+	Firm(const Firm& F);
+	Firm& operator=(const Firm& F);
+	~Firm();
+
+	string get_name() const { return this->name; }
+	Firm& set_name(const string& new_name);
+
+	Worker* first() const { check_index(0); return mem[0]; }
+	Worker* last() const { check_index(used - 1); return mem[used - 1]; }
+	int size() const { return used; }
+
+	/*Передбачити методи заповнення масиву з файлу та його виведення у скороченій та 
+      повній формах на консоль та у текстовий файл. */
+	void loadFromFile(const char* path);
+	void printOn(std::ostream& os);
+	void shortPrintOn(std::ostream& os);
+
+	/* Надати можливість сортування масиву за двома різними критеріями */
+	Firm& sortBy(bool (*criteria)(const Worker* A, const Worker* B));
+	Firm& sortByName();
+	Firm& sortBySalary();
+
+	/*Забезпечити поділ створеного динамічного масиву вказівників на батьківський клас
+	  на два окремі масиви, залежно від того, до якого з похідних класів належить об’єкт
+	  (масив типу1 та типу2 маєте отримати) */
+	void separate(Subordinate*& subs, int& k_subs, Manager*& mans, int& k_mans);
+
+	// наповнення фірми конкретними працівниками;
+	/* Реалізувати методи додавання (нового) та вилучення (по критерію чи 
+       індексу) об’єктів вашого класу. Та перевірити їх роботу.*/
+	Firm& addWorker(const Worker& worker);
+	Firm& addWorker(string n, int y, int w, int s, string* t, int k);
+	Firm& addWorker(string n, int y, int w, int s, string* t, int k, int sub);
+
+	Firm& remove(int i);
+	bool removeIf(bool (*cond)(const Worker* A));
+
+	// нарахування заробітної плати для всіх працівників;
+	void printSalary() const;
+
+	// знайти працівника, який отримує найбільшу заробітну плату;
+
+	// визначити k (k менше за розмір масиву) працівників, що отримують найнижчу зарплату;
+	Worker** poorest(int k) const;
+	// визначити k (k менше за розмір масиву) найстраших працівників;
+	Worker** oldest(int k) const;
+};
