@@ -240,3 +240,18 @@ Worker** Firm::oldest(int k) const
 	for (int i = 0; i < k; ++i) old[i] = copy.mem[i]->clone();
 	return old;
 }
+
+double Firm::totalSalary() const
+{
+	double total = 0.0;
+	for (int i = 0; i < used; ++i) total += mem[i]->salary();
+	return total;
+}
+
+double Firm::managersSalary() const
+{
+	double total = 0.0;
+	for (int i = 0; i < used; ++i)
+		if (typeid(*mem[i]) == typeid(Manager)) total += mem[i]->salary();
+	return total;
+}
