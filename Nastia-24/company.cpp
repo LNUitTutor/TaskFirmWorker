@@ -210,6 +210,15 @@ void Firm::printSalary() const
 		cout << mem[i]->getShorterName() << " : " << mem[i]->salary() << '\n';
 }
 
+const Worker& Firm::highestPaid() const
+{
+	if (used == 0) throw::logic_error("Cann't find a worker in the empty company");
+	int index_max = 0;
+	for (int i = 1; i < used; ++i)
+		if (*mem[i] > *mem[index_max]) index_max = i;
+	return *mem[index_max];
+}
+
 Worker** Firm::poorest(int k) const
 {
 	// знаходить найменш оплачуваних за допомогою сортування копії компанії
