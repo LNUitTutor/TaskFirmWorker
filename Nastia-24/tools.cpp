@@ -129,3 +129,45 @@ void testLoad()
     char answer; (cin >> answer).get();
     if (answer == 'y' || answer == 'Y') goto loop;
 }
+
+void testRunners()
+{
+    string companies[7] = { "Epam", "LNU", "Google", "UN", "Toyota", "HP", "Electron"};
+    Worker* workers[5] = {
+        new Manager("Manager Worker Runner", 19, 40, 35, companies, 7, 5),
+        new Subordinate("Subordinate Worker Tester", 19, 40, 35, companies + 2, 1),
+        new Manager("Manager Worker PM", 19, 40, 35, companies + 2, 3, 26),
+        new Subordinate("Subordinate Data Analyst", 9, 40, 35, companies + 1, 2),
+        new Subordinate("Subordinate Frontend Designer", 19, 36, 36, companies, 6)
+    };
+    Firm F("Test", workers, 5);
+    F.printOn(cout);
+    cout << "\n --- The best runner is:\n" << F.mostMoveableWorker() << '\n';
+    int* runners = nullptr;
+    int places = 8;
+    int count_runners = F.getMoveableWorkers(places, runners);
+    if (count_runners == 0)
+        cout << " --- There are not workers in the company " << F.get_name()
+        << " that change more then " << places << " places\n\n";
+    else
+    {
+        cout << " --- Workers of the company " << F.get_name()
+            << " that change more then " << places << " places are:\n";
+        for (int i = 0; i < count_runners; ++i)
+            cout << F[runners[i]] << '\n';
+        delete[] runners;
+    }
+    places = 5;
+    count_runners = F.getMoveableWorkers(places, runners);
+    if (count_runners == 0)
+        cout << " --- There are not workers in the company " << F.get_name()
+        << " that change more then " << places << " places\n\n";
+    else
+    {
+        cout << " --- Workers of the company " << F.get_name()
+            << " that change more then " << places << " places are:\n";
+        for (int i = 0; i < count_runners; ++i)
+            cout << F[runners[i]] << '\n';
+        delete[] runners;
+    }
+}

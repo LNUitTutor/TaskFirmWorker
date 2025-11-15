@@ -15,3 +15,4 @@ Worker *input_worker();
 // --------------- Окремі тести
 void testEmpty();
 void testLoad();
+void testRunners();
