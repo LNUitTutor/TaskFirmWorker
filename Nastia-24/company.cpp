@@ -105,6 +105,13 @@ void Firm::shortPrintOn(std::ostream& os)
 	for (int i = 0; i < used; ++i) mem[i]->printWithTypenameOn(os);
 }
 
+void Firm::storeOn(const char* path)
+{
+	std::ofstream fout(path);
+	for (int i = 0; i < used; ++i) mem[i]->storeOn(fout);
+	fout.close();
+}
+
 Firm& Firm::sortBy(bool(*criteria)(const Worker* A, const Worker* B))
 {
 	for (int i = 0; i < used - 1; ++i)

@@ -53,6 +53,13 @@ string &Places::operator[](int n)
     return this->titles[n]; // & на елемент
 }
 
+const string& Places::operator[](int n) const
+{
+    if (n < 0 || n >= used) // виняток - якщо непр n
+        throw n;
+    return this->titles[n]; // & на елемент
+}
+
 // додати новий об'єкт в масив місць
 void Places::addPlace(string t)
 {
@@ -286,6 +293,16 @@ void Subordinate::printWithTypenameOn(ostream& os) const
     os << "Subordinate :: " << this->name << ' ' << this->years << " years of experience\n";
 }
 
+void Subordinate::storeOn(ostream& os) const
+{
+    os << "S " << this->name << ' ' << this->years << ' '
+        << this->workhours << ' ' << this->standardhours << ' '
+        << this->Workplaces.countPlace();
+    for (int i = 0; i < this->Workplaces.countPlace(); ++i)
+        os << ' ' << Workplaces[i];
+    os << '\n';
+}
+
 Subordinate* Subordinate::clone() const
 {
     return new Subordinate(*this);
@@ -323,6 +340,16 @@ double Manager::salary() const
 void Manager::printWithTypenameOn(ostream& os) const
 {
     os << "Manager :: " << this->name << ' ' << this->years << " years of experience\n";
+}
+
+void Manager::storeOn(ostream& os) const
+{
+    os << "S " << this->name << ' ' << this->years << ' '
+        << this->workhours << ' ' << this->standardhours << ' '
+        << this->subordinates << ' ' << this->Workplaces.countPlace();
+    for (int i = 0; i < this->Workplaces.countPlace(); ++i)
+        os << ' ' << Workplaces[i];
+    os << '\n';
 }
 
 Manager* Manager::clone() const

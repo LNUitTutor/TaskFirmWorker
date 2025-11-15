@@ -17,6 +17,7 @@ public:
     Places(const Places &other);
     Places &operator=(const Places &other);
     string &operator[](int n);
+    const string& operator[](int n) const;
     ~Places() { delete[] titles; }; 
 
     void addPlace(string t);
@@ -59,6 +60,9 @@ public:
 
     // особливий метод виведення в потік
     virtual void printWithTypenameOn(ostream& os) const abstract;
+
+    // виведення в потік у форматі, придатному для читання
+    virtual void storeOn(ostream& os) const abstract;
 
     // особливий метод копіювання
     virtual Worker* clone() const abstract;
@@ -120,6 +124,9 @@ public:
     // особливий метод виведення в потік
     virtual void printWithTypenameOn(ostream& os) const override;
 
+    // виведення в потік у форматі, придатному для читання
+    virtual void storeOn(ostream& os) const override;
+
     // особливий метод копіювання
     virtual Subordinate* clone() const override;
 
@@ -152,6 +159,9 @@ public:
 
     // особливий метод виведення в потік
     virtual void printWithTypenameOn(ostream& os) const override;
+
+    // виведення в потік у форматі, придатному для читання
+    virtual void storeOn(ostream& os) const override;
 
     // особливий метод копіювання
     virtual Manager* clone() const override;
