@@ -255,3 +255,22 @@ double Firm::managersSalary() const
 		if (typeid(*mem[i]) == typeid(Manager)) total += mem[i]->salary();
 	return total;
 }
+
+const Worker& Firm::mostMoveableWorker() const
+{
+	if (used == 0) throw::logic_error("Cann't find a worker in the empty company");
+	int index_max = 0;
+	for (int i = 1; i < used; ++i)
+		if (mem[i]->countOfWorkplaces() > mem[index_max]->countOfWorkplaces()) index_max = i;
+	return *mem[index_max];
+}
+
+int Firm::getMoveableWorkers(int k, int*& indexes) const
+{
+	// пам'ять для індексів виділено по максимуму заради швидкого виконання
+	indexes = new int[used];
+	int curr = 0;
+	for (int i = 0; i < used; ++i)
+		if (mem[i]->countOfWorkplaces() > k) indexes[curr++] = i;
+	return curr;
+}
