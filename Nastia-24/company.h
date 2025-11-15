@@ -61,19 +61,29 @@ public:
 	string get_name() const { return this->name; }
 	Firm& set_name(const string& new_name);
 
+	// повертає першого за списком працівника
 	Worker* first() const { check_index(0); return mem[0]; }
+	// повертає останнього за списком працівника
 	Worker* last() const { check_index(used - 1); return mem[used - 1]; }
+	// повертає кількість працівників
 	int size() const { return used; }
 
 	/*Передбачити методи заповнення масиву з файлу та його виведення у скороченій та 
       повній формах на консоль та у текстовий файл. */
+	// Завантаження з указаного файлу. Може згенерувати виняток
 	void loadFromFile(const char* path);
+	// друк компанії у повній формі
 	void printOn(std::ostream& os);
+	// друк компаніїї у скороченій формі
 	void shortPrintOn(std::ostream& os);
 
 	/* Надати можливість сортування масиву за двома різними критеріями */
+
+	// загальний метод впорядкування методом вибору за заданим критерієм
 	Firm& sortBy(bool (*criteria)(const Worker* A, const Worker* B));
+	// спеціалізоване впорядкування в алфавітному порядку імен, викристовує sortBy
 	Firm& sortByName();
+	// спеціалізоване впорядкування за зростанням зарплат, викристовує sortBy
 	Firm& sortBySalary();
 
 	/*Забезпечити поділ створеного динамічного масиву вказівників на батьківський клас
@@ -84,14 +94,19 @@ public:
 	// наповнення фірми конкретними працівниками;
 	/* Реалізувати методи додавання (нового) та вилучення (по критерію чи 
        індексу) об’єктів вашого класу. Та перевірити їх роботу.*/
-	Firm& addWorker(const Worker& worker);
-	Firm& addWorker(string n, int y, int w, int s, string* t, int k);
-	Firm& addWorker(string n, int y, int w, int s, string* t, int k, int sub);
 
+	// додавання копії "готового" працівника
+	Firm& addWorker(const Worker& worker);
+	// створення і додавання нового підлеглого
+	Firm& addWorker(string n, int y, int w, int s, string* t, int k);
+	// створення і додавання нового менеджера
+	Firm& addWorker(string n, int y, int w, int s, string* t, int k, int sub);
+	// вилучення працівника за номером, може згенерувати виняток
 	Firm& remove(int i);
+	// вилучення працівника за критерієм поверне true, якщо було вилучено
 	bool removeIf(bool (*cond)(const Worker* A));
 
-	// нарахування заробітної плати для всіх працівників;
+	// нарахування заробітної плати для всіх працівників; - насправді друк відомості
 	void printSalary() const;
 
 	// знайти працівника, який отримує найбільшу заробітну плату;

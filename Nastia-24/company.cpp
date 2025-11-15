@@ -17,6 +17,8 @@ void Firm::check_mem()
 
 Firm::Firm(const char* line, Worker* workers[], int n) :name(line), used(n), len(n)
 {
+	// компанію створюють за назвою і готовим масивом працівників
+	// кожен працівник тепер працює в компанії
 	mem = new Worker*[len];
 	internal_copy(workers, used);
 	for (int i = 0; i < used; ++i) mem[i]->addPlace(this->name);
@@ -132,6 +134,7 @@ Firm& Firm::sortBySalary()
 
 void Firm::separate(Subordinate*& subs, int& k_subs, Manager*& mans, int& k_mans)
 {
+	// створює два нових масиви
 	k_subs = 0;
 	for (int i = 0; i < used; ++i)
 		if (typeid(*mem[i]) == typeid(Subordinate)) ++k_subs;
@@ -209,6 +212,8 @@ void Firm::printSalary() const
 
 Worker** Firm::poorest(int k) const
 {
+	// знаходить найменш оплачуваних за допомогою сортування копії компанії
+	// оригінальна компанія залишається незмінною, повертає масив заданого розміру
 	Firm copy(*this);
 	copy.sortBySalary();
 	Worker** poor = new Worker*[k];
@@ -218,6 +223,8 @@ Worker** Firm::poorest(int k) const
 
 Worker** Firm::oldest(int k) const
 {
+	// знаходить найдосвідченіших працівників за допомогою сортування копії компанії
+	// оригінальна компанія залишається незмінною, повертає масив заданого розміру
 	Firm copy(*this);
 	copy.sortBy([](const Worker* A, const Worker* B) { return A->getExperience() > B->getExperience(); });
 	Worker** old = new Worker * [k];
