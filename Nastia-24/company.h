@@ -62,9 +62,9 @@ public:
 	Firm& set_name(const string& new_name);
 
 	// повертає першого за списком працівника
-	Worker* first() const { check_index(0); return mem[0]; }
+	Worker& first() const { check_index(0); return *mem[0]; }
 	// повертає останнього за списком працівника
-	Worker* last() const { check_index(used - 1); return mem[used - 1]; }
+	Worker& last() const { check_index(used - 1); return *mem[used - 1]; }
 	// повертає кількість працівників
 	int size() const { return used; }
 

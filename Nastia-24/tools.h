@@ -1,5 +1,6 @@
 #pragma once
 #include "worker.h"
+#include "company.h"
 #include <iostream>
 using namespace std;
 
@@ -10,3 +11,6 @@ void bubble_sort(Worker *workers[], size_t nWorkers); //масив вказів�
 void print_workers(const char *title, Worker *workers[], size_t nWorkers, ostream &os);
 
 Worker *input_worker();
+
+// --------------- Розділи меню
+void testEmpty();

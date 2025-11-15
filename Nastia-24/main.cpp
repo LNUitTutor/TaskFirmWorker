@@ -7,6 +7,7 @@ using namespace std;
 
 int main()
 {
+    testEmpty(); cin.get();
     string companies[5] = {"Epam", "LNU", "Google", "UN", "Toyota"};
     const int n = 4;
     Worker *workers[n] = {

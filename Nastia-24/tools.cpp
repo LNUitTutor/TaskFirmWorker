@@ -28,7 +28,7 @@ void print_workers(const char* title, Worker* workers[], size_t nWorkers, ostrea
 Worker* input_worker()
 {
     Worker* worker = nullptr;
-    cout << "Enter your choice (w-Worker, s-Subordinate, m-Manager): ";
+    cout << "Enter your choice (s-Subordinate, m-Manager): ";
     char c; 
     (cin >> c).get(); //відразу зчитати ентер
     switch (c)
@@ -47,4 +47,56 @@ Worker* input_worker()
         break;
     }
     return worker;
+}
+
+void testEmpty()
+{
+    // новостворена фірма порожня, доступ до працівників мав би закінчитися винятком
+    Firm F;
+    F.printOn(cout);
+    F.storeOn("empty.txt");
+    try
+    {
+        cout << "first worker: " << F.first() << '\n';
+    }
+    catch (Firm::BadIndex& ex)
+    {
+        cout << "try get first ERROR: " << ex.what() << " with index " << ex.index << '\n';
+    }
+    try
+    {
+        cout << "last worker: " << F.last() << '\n';
+    }
+    catch (Firm::BadIndex& ex)
+    {
+        cout << "try get last ERROR: " << ex.what() << " with index " << ex.index << '\n';
+    }
+
+    // Прийняли на фірму двох працівників, повторили ті ж дії
+    F.set_name("Two Geniuses");
+    Worker* worker = input_worker();
+    F.addWorker(*worker);
+    delete worker;
+    worker = input_worker();
+    F.addWorker(*worker);
+    delete worker;
+    cout << "\n\n After two addition\n\n";
+    F.printOn(cout);
+    F.storeOn("two_workers.txt");
+    try
+    {
+        cout << "first worker: " << F.first() << '\n';
+    }
+    catch (Firm::BadIndex& ex)
+    {
+        cout << "try get first ERROR: " << ex.what() << " with index " << ex.index << '\n';
+    }
+    try
+    {
+        cout << "last worker: " << F.last() << '\n';
+    }
+    catch (Firm::BadIndex& ex)
+    {
+        cout << "try get last ERROR: " << ex.what() << " with index " << ex.index << '\n';
+    }
 }
