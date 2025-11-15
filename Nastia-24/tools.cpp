@@ -100,3 +100,32 @@ void testEmpty()
         cout << "try get last ERROR: " << ex.what() << " with index " << ex.index << '\n';
     }
 }
+
+void testLoad()
+{
+    Firm F("Load Files Co");
+    char filename[80] = { 0 };
+ loop:
+    cout << "\nInput a name of file to load the firm. Possible names are:\n"
+        << "'empty.txt', 'two_workers.txt', 'workers.txt': ";
+    (cin >> filename).get();
+    try
+    {
+        F.loadFromFile(filename);
+        F.printOn(cout);
+    }
+    catch (Firm::FileNotFound& ex)
+    {
+        cout << " *** ERROR : " << ex.what()
+            << "\n issue occured with the path '" << ex.path << "'\n";
+    }
+    catch (std::runtime_error& ex)
+    {
+        cout << " *** ERROR : " << ex.what()
+            << "\n See the 'errors.txt' file.\n\n";
+        F.printOn(cout);
+    }
+    cout << "Do you want to repeat (y/n)? ";
+    char answer; (cin >> answer).get();
+    if (answer == 'y' || answer == 'Y') goto loop;
+}

@@ -12,5 +12,6 @@ void print_workers(const char *title, Worker *workers[], size_t nWorkers, ostrea
 
 Worker *input_worker();
 
-// --------------- Розділи меню
+// --------------- Окремі тести
 void testEmpty();
+void testLoad();

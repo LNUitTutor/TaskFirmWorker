@@ -150,7 +150,9 @@
     <ClInclude Include="worker.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="empty.txt" />
     <Text Include="errors.txt" />
+    <Text Include="two_workers.txt" />
     <Text Include="workers.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

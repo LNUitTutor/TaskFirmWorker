@@ -75,7 +75,7 @@ void Firm::loadFromFile(const char* path)
 	while (!fin.eof())
 	{
 		string line; getline(fin, line);
-		//std::cout << '*' << line << '\n';
+		if (line == "") continue;
 		Worker* worker = Worker::Parse(line);
 		if (worker == nullptr)
 		{
