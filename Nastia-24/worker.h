@@ -68,8 +68,10 @@ public:
 
     // додає нове місце праці
     Worker& addPlace(string t) { this->Workplaces.addPlace(t); return *this; }
+
     string getName() const { return name; }
     int getExperience() const { return years; }
+    int countOfWorkplaces() const { return Workplaces.countPlace(); }
 
     // *** --------------------------------------------------------------
 
