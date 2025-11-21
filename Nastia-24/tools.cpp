@@ -24,7 +24,6 @@ void print_workers(const char* title, Worker* workers[], size_t nWorkers, ostrea
     os << endl;
 }
 
-
 Worker* input_worker()
 {
     Worker* worker = nullptr;
@@ -170,4 +169,56 @@ void testRunners()
             cout << F[runners[i]] << '\n';
         delete[] runners;
     }
+}
+
+namespace environment
+{
+    // Тестові дані для формування фірм за допомогою конструкторів
+    string companies[7] = { "Epam", "LNU", "Google", "UN", "Toyota", "HP", "Electron" };
+    Worker* workers[5] = {
+        new Manager("Manager Worker Runner", 19, 40, 35, companies, 7, 5),
+        new Subordinate("Subordinate Worker Tester", 19, 40, 35, companies + 2, 1),
+        new Manager("Manager Worker PM", 19, 40, 35, companies + 2, 3, 26),
+        new Subordinate("Subordinate Data Analyst", 9, 40, 35, companies + 1, 2),
+        new Subordinate("Subordinate Frontend Designer", 19, 36, 36, companies, 6)
+    };
+    Worker* subordinates[3] = { workers[1], workers[3],
+        new Subordinate("Subordinate Worker Coder", 1, 40, 40, companies, 0) };
+
+    const int n = 5;
+    Firm firms[n] = { Firm("Startup"), Firm("Little_Co", 2),
+        Firm("Runners", workers, 5), Firm("Headless", subordinates, 3) };
+
+    bool check_index(int index)
+    {
+        if (index < 0 || index >= n)
+        {
+            cout << "Error :: Wrong index " << index << '\n';
+            return false;
+        }
+        return true;
+    }
+
+    void print_names()
+    {
+        cout << "\n  COMPANIES:\n--------------------\n";
+        for (int i = 0; i < n; ++i)
+            cout << i << " - " << firms[i].get_name() << '\n';
+    }
+
+    void print_firm(int index)
+    {
+        if (!check_index(index)) return;
+        int answer;
+        cout << "What kind of output do you want (1-short, 2-detailed)? ";
+        cin >> answer;
+        switch (answer)
+        {
+        case 1: firms[index].shortPrintOn(cout); break;
+        case 2: firms[index].printOn(cout); break;
+        default: cout << "Unrecognized answer " << answer << '\n';
+            break;
+        }
+    }
+
 }
