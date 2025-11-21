@@ -210,7 +210,7 @@ namespace environment
     {
         int answer;
         cout << "What kind of output do you want (1-short, 2-detailed)? ";
-        cin >> answer; cout << '\n';
+        (cin >> answer).get(); cout << '\n';
         switch (answer)
         {
         case 1: firms[index].shortPrintOn(cout); break;
@@ -241,6 +241,13 @@ namespace environment
             cout << " *** ERROR : " << ex.what()
                 << "\n See the 'errors.txt' file.\n\n";
         }
+    }
+
+    void add_worker(int index)
+    {
+        Worker* worker = input_worker();
+        firms[index].addWorker(*worker);
+        delete worker;
     }
 
 }

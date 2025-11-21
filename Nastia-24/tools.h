@@ -32,4 +32,6 @@ namespace environment
 	void print_firm(int index);
 	// завантажує з файла задану фірму
 	void load_firm(int index);
+	// додає до фірми нового працівника
+	void add_worker(int index);
 }

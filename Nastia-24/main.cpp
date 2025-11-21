@@ -15,9 +15,10 @@ int main()
         cout
             << "1. Print company to console\n"
             << "2. Load company from file\n"
+            << "3. Add new worker to a company\n"
             << "9. Exit\n";
 
-        cout << "\nInput two numbers: command and company. ";
+        cout << "\nInput two numbers - command and company: ";
         cin >> command >> firm;
         if (!environment::check_index(firm)) continue;
 
@@ -25,10 +26,12 @@ int main()
         {
         case 1: environment::print_firm(firm); break;
         case 2: environment::load_firm(firm); break;
+        case 3: environment::add_worker(firm); break;
         case 9: cout << "\nBye!\n\n"; break;
         default: cout << "Unknown command\n";
             break;
         }
+        cout << " - press <Enter> to continue ..."; cin.get();
     } while (command != 9);
     return 0;
 }
