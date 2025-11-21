@@ -208,16 +208,38 @@ namespace environment
 
     void print_firm(int index)
     {
-        if (!check_index(index)) return;
         int answer;
         cout << "What kind of output do you want (1-short, 2-detailed)? ";
-        cin >> answer;
+        cin >> answer; cout << '\n';
         switch (answer)
         {
         case 1: firms[index].shortPrintOn(cout); break;
         case 2: firms[index].printOn(cout); break;
         default: cout << "Unrecognized answer " << answer << '\n';
             break;
+        }
+    }
+
+    void load_firm(int index)
+    {
+        char filename[80] = { 0 };
+        cout << "\nInput a name of file to load the firm. Possible names are:\n"
+            << "'empty.txt', 'two_workers.txt', 'workers.txt' or other: ";
+        (cin >> filename).get();
+        try
+        {
+            firms[index].loadFromFile(filename);
+            cout << "The firm " << firms[index].get_name() << " loaded successfully\n";
+        }
+        catch (Firm::FileNotFound& ex)
+        {
+            cout << " *** ERROR : " << ex.what()
+                << "\n issue occured with the path '" << ex.path << "'\n";
+        }
+        catch (std::runtime_error& ex)
+        {
+            cout << " *** ERROR : " << ex.what()
+                << "\n See the 'errors.txt' file.\n\n";
         }
     }
 

@@ -13,18 +13,23 @@ int main()
         environment::print_names();
         cout << "\nPossible commands are\n-----------------------\n";
         cout
-            << "1. Print company\n"
+            << "1. Print company to console\n"
+            << "2. Load company from file\n"
             << "9. Exit\n";
+
         cout << "\nInput two numbers: command and company. ";
         cin >> command >> firm;
+        if (!environment::check_index(firm)) continue;
+
         switch (command)
         {
         case 1: environment::print_firm(firm); break;
-        default:
+        case 2: environment::load_firm(firm); break;
+        case 9: cout << "\nBye!\n\n"; break;
+        default: cout << "Unknown command\n";
             break;
         }
     } while (command != 9);
-    cout << "\nBye!\n\n";
     return 0;
 }
 /*testEmpty(); cin.get(); cin.get();

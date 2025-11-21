@@ -28,6 +28,8 @@ namespace environment
 	bool check_index(int index);
 	// друкує імена наявних фірм
 	void print_names();
-	// виконує початкове налаштування
+	// друкує задану фірму
 	void print_firm(int index);
+	// завантажує з файла задану фірму
+	void load_firm(int index);
 }
