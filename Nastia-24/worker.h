@@ -79,6 +79,11 @@ public:
 
     // *** --------------------------------------------------------------
 
+    void addPrefixToName(const string prefix)
+    {
+        this->name = prefix + this->name;
+    }
+
     //треба у readFrom:
     virtual void setYears(int y); // subordinate, ++стаж
     void setWorkhours(int w) { workhours = w > 0 ? w : 0; }

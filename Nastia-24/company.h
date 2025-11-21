@@ -2,6 +2,8 @@
 #include "worker.h"
 #include <exception>
 
+using namespace std;
+
 /* Клас “Фірма” (поле: назва фірми у вигляді рядка).
    -------------------------------------------------
 Написати програму, що дає змогу моделювати роботу бухгалтерії на фірмі. Створити такі сервіси:
@@ -41,14 +43,22 @@ private:
 	Worker** mem;
 	int len, used;
 
-	void internal_clear() {
+	void internal_clear()
+	{	// для копіювального присвоєння, деструктора, зчитування з файлу
 		for (int i = 0; i < used; ++i)
-			delete mem[i]; }
-	void internal_copy(Worker* workers[], int n) {
-		for (int i = 0; i < n; ++i) mem[i] = workers[i]->clone(); }
-	void check_mem();
-	void check_index(int i) const {
-		if (i < 0 || i >= used) throw BadIndex("Index out of range of Firm", i); }
+			delete mem[i];
+	}
+	void internal_copy(Worker* workers[], int n)
+	{	// для конструкторів: за назвою і масивом, копіювання; 
+		// для оператора присвоєння
+		for (int i = 0; i < n; ++i) mem[i] = workers[i]->clone();
+	}
+	void check_mem(); // перевірити резерв і збільшити за потреби
+	void check_index(int i) const
+	{	// для видалення працівника, getFirst, getLast, operator[]
+		if (i < 0 || i >= used)
+			throw BadIndex("Index out of range of Firm", i);
+	}
 public:
 	Firm() :name("Unknown"), used(0), len(5) { mem = new Worker*[len]; }
 	explicit Firm(const char* line) :name(line), used(0), len(5) { mem = new Worker*[len]; }
@@ -92,6 +102,7 @@ public:
 	/*Забезпечити поділ створеного динамічного масиву вказівників на батьківський клас
 	  на два окремі масиви, залежно від того, до якого з похідних класів належить об’єкт
 	  (масив типу1 та типу2 маєте отримати) */
+	// поділ на менеджерів і підлеглих:
 	void separate(Subordinate*& subs, int& k_subs, Manager*& mans, int& k_mans);
 
 	// наповнення фірми конкретними працівниками;
@@ -138,6 +149,8 @@ public:
 	// Повертає кількість працівників, які змінили більше k робіт. У параметрі indexes - масив
 	// їхніх індексів.
 	int getMoveableWorkers(int k, int*& indexes) const;
+
+	Firm& changeNamesOfMovable(int k, const string& prefix);
 
 	// Додаткові оператори для доступу до окремого працівника
 

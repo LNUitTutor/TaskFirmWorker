@@ -242,7 +242,8 @@ Worker** Firm::oldest(int k) const
 	// знаходить найдосвідченіших працівників за допомогою сортування копії компанії
 	// оригінальна компанія залишається незмінною, повертає масив заданого розміру
 	Firm copy(*this);
-	copy.sortBy([](const Worker* A, const Worker* B) { return A->getExperience() > B->getExperience(); });
+	copy.sortBy([](const Worker* A, const Worker* B)
+				{ return A->getExperience() > B->getExperience(); });
 	Worker** old = new Worker * [k];
 	for (int i = 0; i < k; ++i) old[i] = copy.mem[i]->clone();
 	return old;
@@ -280,4 +281,12 @@ int Firm::getMoveableWorkers(int k, int*& indexes) const
 	for (int i = 0; i < used; ++i)
 		if (mem[i]->countOfWorkplaces() > k) indexes[curr++] = i;
 	return curr;
+}
+
+Firm& Firm::changeNamesOfMovable(int k, const string& prefix)
+{
+	for (int i = 0; i < used; ++i)
+		if (mem[i]->countOfWorkplaces() > k)
+			mem[i]->addPrefixToName(prefix);
+	return *this;
 }
